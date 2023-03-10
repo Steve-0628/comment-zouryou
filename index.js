@@ -119,7 +119,6 @@ async function LOADCOMMENT() {
           await prepareLegacy();
           continue;
         }
-        comments.push(...res.data.threads[0].comments);
         if (
           res.data.threads[0].comments.length === 0 ||
           res.data.threads[0].comments[0].no < 5
@@ -131,14 +130,20 @@ async function LOADCOMMENT() {
           );
           break;
         }
-        lastTime = Math.floor(
-          new Date(res.data.threads[0].comments[0].postedAt).getTime() / 1000
-        );
-        logger(
-          `[${fetchedThreadCount + j}/${totalThreadCount}]: コメ番${
-            res.data.threads[0].comments[0].no
-          }まで読み込みました`
-        );
+        (async()=>{
+          comments.push(...res.data.threads[0].comments);
+        
+          
+          lastTime = Math.floor(
+            new Date(res.data.threads[0].comments[0].postedAt).getTime() / 1000
+          );
+          logger(
+            `[${fetchedThreadCount + j}/${totalThreadCount}]: コメ番${
+              res.data.threads[0].comments[0].no
+            }まで読み込みました`
+          );
+        })();
+        
       } else {
         let url = `${threads[1]["server"]}/api.json/thread?${joinObj(
           { ...params, when: lastTime, res_from: "-1000" },
@@ -219,18 +224,19 @@ async function LOADCOMMENT() {
   }
   CommentLoadingScreenWrapper.style.background = `rgba(0, 0, 0, .9)`;
   logger(comments.length + "件のコメントを読み込みました");
-  logger(`NG設定を適用しています`);
+  // logger(`NG設定を適用しています`);
 
   COMMENT = [
     {
       commentCount: comments.length,
-      comments: await COMMENT_NG(comments),
+      // comments: await COMMENT_NG(comments),
+      comments: comments,
       fork: "comment-zouryou",
       id: 0,
     },
   ];
 
-  logger(comments.length + "件に減りました");
+  // logger(comments.length + "件に減りました");
   logger(`描画準備中`);
   document.getElementById(
     "progress_bar"
@@ -573,7 +579,7 @@ function PREPARE(observe) {
   });
   document.getElementById("zenkomebutton").onclick = () => {
     let num = document.getElementById("load_num").value;
-    CommentLimit = num !== "" ? Number(num) : 5;
+    CommentLimit = num !== "" ? Number(num) : Number(document.getElementById("load_num").placeholder);
     //CommentLoadingScreenWrapper.style.display = "block";
     document.getElementById("zenkomebutton").disabled = true;
 
@@ -641,6 +647,8 @@ fetch(index_html)
 const start = setInterval(() => {
   if (document.getElementsByClassName("DropDownMenu")[0] != undefined) {
     PREPARE();
+    document.getElementById("zenkomebutton").click();
     clearInterval(start);
   }
 }, 50);
+

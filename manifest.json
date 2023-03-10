@@ -2,16 +2,20 @@
   "manifest_version": 3,
   "name": "コメント増量",
   "description": "ニコニコ動画のコメントの表示量を増やす",
-  "version": "3.2",
+  "version": "3.2.2",
   "content_scripts": [
     {
       "matches": [
         "https://www.nicovideo.jp/watch/*",
-        "https://nicovideo.jp/watch/*"
+        "https://nicovideo.jp/watch/*",
+        "*://*.mozilla.org/*"
       ],
       "js": [
         "lib/niconicomments.js",
         "index.js"
+      ],
+      "css": [
+        "style.css"
       ],
       "run_at": "document_end"
     }
@@ -31,5 +35,11 @@
     "16": "icons/16.png",
     "48": "icons/48.png",
     "128": "icons/128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "morecomment2@example.com"
+    }
   }
+  
 }
