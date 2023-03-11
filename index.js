@@ -502,8 +502,8 @@ function PREPARE(observe) {
       SETTING_NG_LIST_COMMENT.innerHTML = "";
       SETTING_NG_LIST_COMMAND.innerHTML = "";
       for (let i = 0; i < NG_LIST_COMMENT.length; i++) {
-        SETTING_NG_LIST_COMMENT.innerHTML += `<li>${NG_LIST_COMMENT[i]}
-          <button id="del_e${i}" class="deletebutton" ></button></li>`;
+        // SETTING_NG_LIST_COMMENT.innerHTML += `<li>${NG_LIST_COMMENT[i]}
+        //   <button id="del_e${i}" class="deletebutton" ></button></li>`;
       }
       for (let i = 0; i < NG_LIST_COMMENT.length; i++) {
         document.getElementById(`del_e${i}`).onclick = function (e) {
@@ -511,8 +511,8 @@ function PREPARE(observe) {
         };
       }
       for (let i = 0; i < NG_LIST_COMMAND.length; i++) {
-        SETTING_NG_LIST_COMMAND.innerHTML += `<li>${NG_LIST_COMMAND[i]}
-          <button id="del_a${i}"  class="deletebutton" ></button></li>`;
+        // SETTING_NG_LIST_COMMAND.innerHTML += `<li>${NG_LIST_COMMAND[i]}
+        //   <button id="del_a${i}"  class="deletebutton" ></button></li>`;
       }
       for (let i = 0; i < NG_LIST_COMMAND.length; i++) {
         document.getElementById(`del_a${i}`).onclick = function (e) {
